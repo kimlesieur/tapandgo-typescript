@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import { useAppSelector, useAppDispatch } from './hooks';
 
 import { Container, Alert, Stack, IconButton, CardMedia, CircularProgress, Box } from '@mui/material';
 import {SearchSharp, DirectionsSharp, GpsFixed } from '@mui/icons-material';
@@ -15,15 +16,15 @@ import { updateSearch } from '../features/searchList/searchListSlice';
 import Geolocation from '../components/geolocation/Geolocation';
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [openLateral, setOpenLateral] = useState(false);
   const [openRouting, setOpenRouting] = useState(false);
   const [geo, setGeo] = useState(false);
-  const stations = useSelector(selectStations);
-  const isLoading = useSelector(isLoadingStations);
-  const hasError = useSelector(hasErrorStations);
+  const stations = useAppSelector(selectStations);
+  const isLoading = useAppSelector(isLoadingStations);
+  const hasError = useAppSelector(hasErrorStations);
   
-  const position = useSelector(selectPosition);
+  const position = useAppSelector(selectPosition);
 
   useEffect(() => {
     dispatch(loadStations());
@@ -112,7 +113,7 @@ export const App = () => {
         alt="Logo TapandGo"
         sx={style.logo}
       />
-    <Container maxWidth="false" style={{top: 0, left: 0, padding: 0, margin: 0}}>
+    <Container maxWidth={false} style={{top: 0, left: 0, padding: 0, margin: 0}}>
       <MapContainer center={position} zoom={13} scrollWheelZoom={true} id="map" >
         <IconButton  onClick={handleGeolocation} sx={{...style.button, bottom: 150, right: 50}} data-testid="btn-lateral">
           <GpsFixed sx={style.icon} />

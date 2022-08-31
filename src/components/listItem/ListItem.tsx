@@ -2,7 +2,8 @@ import React from "react";
 import {ListItem as ListElement, Typography, Grid, Box, Divider, Paper} from '@mui/material';
 import {DirectionsBike, LocalParking, Circle} from "@mui/icons-material";
 
-const ListItem = ({station}) => {
+
+const ListItem = ({station}: {station: Station}) => {
 
     const style = {
         alignCenter: {
@@ -33,7 +34,7 @@ const ListItem = ({station}) => {
           }
     }
     
-    const isOpen = (status) => {
+    const isOpen = (status: "Ouverte" | "Fermée") => {
         if(status === 'Fermée'){
             return <Circle color="error" fontSize="2rem"/>;
         }
@@ -42,7 +43,7 @@ const ListItem = ({station}) => {
 
     return (
         <>
-        <ListElement p={0}>
+        <ListElement>
             <Paper sx={style.alignCenter}>
                 <Grid container spacing={1}>
                     <Grid item xs={3} >

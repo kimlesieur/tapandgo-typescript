@@ -1,28 +1,38 @@
 import React, {useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+
 import {Box, Drawer, Button, List as Listing, ToggleButton, ToggleButtonGroup, Stack, CardMedia} from '@mui/material';
 import {Close} from "@mui/icons-material";
 import Search from '../search/Search';
 import List from '../../components/list/List';
 import { selectSearchTerm, selectFilter, selectStationsFiltered, updateSearch, handleChangeValue, handleSelectionValue } from './searchListSlice';
 
-const SearchList = ({stationsInit, handleOpen, open}) => {
-  const dispatch = useDispatch();
-  const stations = useSelector(selectStationsFiltered);
-  const filter = useSelector(selectFilter);
-  const searchTerm = useSelector(selectSearchTerm);
+interface Props {
+  stationsInit: (Station | Address)[];
+  handleOpen: () => void;
+  open: boolean;
+};
+
+
+const SearchList = ({stationsInit, handleOpen, open}: Props) => {
+  const dispatch = useAppDispatch();
+  const stations = useAppSelector(selectStationsFiltered);
+  const filter = useAppSelector(selectFilter);
+  const searchTerm = useAppSelector(selectSearchTerm);
 
   useEffect(() => {
     dispatch(updateSearch({type: "stationsFiltered", input: stationsInit}));
   }, [dispatch, stationsInit]);
 
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     dispatch(handleChangeValue({value: e.target.value}));
   }
 
-  const handleSelection = (e, value) => {
-    dispatch(handleSelectionValue({filter: e.target.value}))
+  const handleSelection = (e:  React.MouseEvent<HTMLElement>) => {
+    if(e.target){
+      dispatch(handleSelectionValue({filter: (e.target as HTMLInputElement).value}));
+    }
   }
 
   const style = {
@@ -75,7 +85,7 @@ const SearchList = ({stationsInit, handleOpen, open}) => {
             exclusive
             onChange={handleSelection}
           >
-            <ToggleButton value="all" mr={2} sx={style.toggleGroup}>Toutes</ToggleButton>
+            <ToggleButton value="all" sx={style.toggleGroup}>Toutes</ToggleButton>
             <ToggleButton value="open" sx={style.toggleGroup}>Ouvertes</ToggleButton>
             <ToggleButton value="closed" sx={style.toggleGroup}>Fermées</ToggleButton>
           </ToggleButtonGroup>
@@ -91,7 +101,6 @@ const SearchList = ({stationsInit, handleOpen, open}) => {
     <div>
           <Drawer
             open={open}
-            onClose={null}
           >
            {list()}
           </Drawer>

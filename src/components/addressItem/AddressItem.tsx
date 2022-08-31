@@ -2,7 +2,7 @@ import React from 'react';
 import {Typography, Paper} from '@mui/material';
 
 
-const AdressItem = ({address}) => {
+const AdressItem = ({address}: {address: Address}) => {
 
     const style = {
         addressItem: {

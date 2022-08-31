@@ -3,7 +3,7 @@ import {List as Listing, Typography} from '@mui/material';
 import ListItem from "../listItem/ListItem";
 
 
-const List = ({stations}) => {
+const List = ({stations}: {stations: Station[]}) => {
 
     const style = {
         message: {

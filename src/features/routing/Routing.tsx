@@ -1,25 +1,27 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+
 import { Container, Box, FormControl, Grid, Button, Typography} from '@mui/material';
 import {ArrowBack, Place} from '@mui/icons-material';
 import { DebounceInput } from 'react-debounce-input'
 import AddressList from '../../components/addressList/AddressList';
 import { updateValue, loadAddress, selectStarting, selectArrival} from './routingSlice';
 
+interface Props {
+    handleOpen : () => void;
+};
 
-const Routing = ({handleOpen}) => {
+const Routing = ({handleOpen}: Props) => {
     
-    const dispatch = useDispatch();
-    const starting = useSelector(selectStarting);
-    const arrival = useSelector(selectArrival);
+    const dispatch = useAppDispatch();
+    const starting = useAppSelector(selectStarting);
+    const arrival = useAppSelector(selectArrival);
 
-    const handleChange = (e, type) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, type: "starting" | "arrival") => {
         const value = e.target.value;
         const input = "input";
         dispatch(updateValue({type, value, input}));
-        if(value?.length > 3){
-            dispatch(loadAddress({value, type}));
-        }
+        dispatch(loadAddress({value, type}));
     }
 
     const style = {
@@ -59,23 +61,24 @@ const Routing = ({handleOpen}) => {
         },
         arrowBack: {
             fontSize:"1.4rem",
-            fontWeight:"bolder"
+            fontWeight:"bolder", 
+            color: "black"
         }
     };
 
     return (
-        <Container maxWidth="false" style={style.container}>
+        <Container maxWidth={false} sx={style.container}>
             <Box style={style.containerBox}>
                 <Grid container spacing={2} >
-                    <Grid item xs={4} sx={{...style.left}}>
+                    <Grid item xs={4} sx={style.left}>
                         <Button  onClick={handleOpen} >
-                            <ArrowBack color="black" sx={style.arrowBack}/>
+                            <ArrowBack sx={style.arrowBack}/>
                         </Button>
                     </Grid>
                     <Grid item xs={8} sx={style.left} >
                         <Typography variant="subtitle1" sx={style.title}>Itinéraire</Typography>
                     </Grid>
-                    <Grid item left xs={3} sx={style.right}>
+                    <Grid item xs={3} sx={style.right}>
                         Départ
                     </Grid>
                     <Grid item xs={6} sx={style.center}>

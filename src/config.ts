@@ -3,7 +3,9 @@ export const JCDECAUX = {
     KEY: process.env.REACT_APP_JCDECAUX_API_KEY,
 };
 
-export const DEFAULT_CITY = {
+
+
+export const DEFAULT_CITY: DefaultCity = {
     city: "Nantes",
     cityCode: "44109",
     position: [47.218, -1.549]
