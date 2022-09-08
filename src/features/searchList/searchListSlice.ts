@@ -1,7 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, AnyAction, ThunkAction} from '@reduxjs/toolkit';
 import { arrayFilter } from '../../utils/utils';
 import { RootState, AppDispatch } from '../../app/store';
-import { StatOptions } from 'fs';
 
 export const handleChangeValue = ({value}: {value: string}) => {
     return (dispatch: AppDispatch, getState: () => RootState) => {
@@ -22,8 +21,8 @@ export const handleChangeValue = ({value}: {value: string}) => {
 // state.app.stations will stay safe with only Station[] type.
 // Solution found : pass the type of state.app.stations as Station[] in this function because it should always be Station passed inside -> correct to write this ? 
 
-export const handleSelectionValue = ({filter}: {filter: string}) => {
-    return(dispatch: AppDispatch, getState: () => RootState) => {
+export const handleSelectionValue = ({filter}: {filter: string}): ThunkAction<void,RootState,unknown,AnyAction>=> {
+    return(dispatch, getState) => {
         const state = getState();
         const stations = state.app.stations as Station[];
         dispatch(updateSearch({type: "filter", input: filter}));
@@ -32,8 +31,7 @@ export const handleSelectionValue = ({filter}: {filter: string}) => {
                 dispatch(updateSearch({type: "stationsFiltered", input: stations}));
                 break;
             case 'open':
-                dispatch(updateSearch({type: "stationsFiltered", input: stations.filter(elem => {elem.status === "Ouverte"}
-                )}));
+                dispatch(updateSearch({type: "stationsFiltered", input: stations.filter(elem => elem.status === "Ouverte")}));
                 break;
             case 'closed':
                 dispatch(updateSearch({type: "stationsFiltered", input: stations.filter(elem => elem.status === "Fermée")}));
@@ -52,7 +50,7 @@ const initialState: SearchState = {
 };
 
 //TODO find a way to refactor type choice in updateSearch reducer 
-//how efficiently choose type based on variable ? Review grafikart lesson with exercise "Conditional format" in Notion
+//how efficiently choose type based on variable ?
 
 export const searchListSlice = createSlice({
     name:'searchList',
@@ -63,7 +61,7 @@ export const searchListSlice = createSlice({
             const input = action.payload.input;
             if(typeof input === 'object'){
                 state.stationsFiltered = action.payload.input as Station[];
-            } else if (typeof input === 'string') {
+            } else if (type === "searchTerm") {
                 state.searchTerm = action.payload.input as string;
             } else {
                 state.filter = action.payload.input as string;

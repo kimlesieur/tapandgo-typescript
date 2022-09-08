@@ -43,6 +43,7 @@ describe('SearchList component testing', () => {
                 cityCode: "44109",
                 position: [47.218, -1.549],
                 bounds: [[47.100, -1.700], [47.400, -1.400]],
+                geolocation: []
                 }
         });
 

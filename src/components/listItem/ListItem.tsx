@@ -1,4 +1,3 @@
-import React from "react";
 import {ListItem as ListElement, Typography, Grid, Box, Divider, Paper} from '@mui/material';
 import {DirectionsBike, LocalParking, Circle} from "@mui/icons-material";
 
@@ -34,11 +33,11 @@ const ListItem = ({station}: {station: Station}) => {
           }
     }
     
-    const isOpen = (status: "Ouverte" | "Fermée") => {
+    const isOpen = (status: string) => {
         if(status === 'Fermée'){
-            return <Circle color="error" fontSize="2rem"/>;
+            return <Circle color="error" sx={{ fontSize: 20 }}/>;
         }
-        return <Circle color="success" fontSize="2rem"/>;
+        return <Circle color="success" sx={{ fontSize: 20 }}/>;
     }
 
     return (

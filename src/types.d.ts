@@ -21,7 +21,7 @@ interface Station {
     address: string;
     available_bike_stands: number;
     available_bikes: number;
-    status: "Ouverte" | "Fermée";
+    status: string;
     banking: boolean;
     long: number;
     lat: number;

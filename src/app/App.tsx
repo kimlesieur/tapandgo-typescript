@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import { useAppSelector, useAppDispatch } from './hooks';
 
 import { Container, Alert, Stack, IconButton, CardMedia, CircularProgress, Box } from '@mui/material';
@@ -14,6 +13,7 @@ import { loadStations, hasErrorStations, selectStations, isLoadingStations, sele
 import { clear } from '../features/routing/routingSlice';
 import { updateSearch } from '../features/searchList/searchListSlice';
 import Geolocation from '../components/geolocation/Geolocation';
+
 
 export const App = () => {
   const dispatch = useAppDispatch();
@@ -115,7 +115,7 @@ export const App = () => {
       />
     <Container maxWidth={false} style={{top: 0, left: 0, padding: 0, margin: 0}}>
       <MapContainer center={position} zoom={13} scrollWheelZoom={true} id="map" >
-        <IconButton  onClick={handleGeolocation} sx={{...style.button, bottom: 150, right: 50}} data-testid="btn-lateral">
+        <IconButton  onClick={handleGeolocation} sx={{...style.button, bottom: 150, right: 50}}>
           <GpsFixed sx={style.icon} />
         </IconButton>
         <IconButton  onClick={handleOpenRouting} sx={{...style.button, bottom: 80, right: 50}}>

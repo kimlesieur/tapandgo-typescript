@@ -1,4 +1,3 @@
-import React from "react";
 import {List as Listing, Typography} from '@mui/material';
 import ListItem from "../listItem/ListItem";
 
